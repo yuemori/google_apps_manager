@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'google_apps_manager'
+
+GoogleAppsManager::CLI.start
