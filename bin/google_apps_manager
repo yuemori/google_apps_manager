@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'google_apps_manager'
+require 'dotenv'
 
-GoogleAppsManager::CLI.start
+Dotenv.load
+GoogleAppsManager::CLI.start(ARGV)
