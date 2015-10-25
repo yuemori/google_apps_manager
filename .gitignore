@@ -1,0 +1,17 @@
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/vendor/bundle
+Gemfile.lock
+
+.env
+
+spec/config/sample_client_secrets.json
+spec/config/sample_credential_oauth2.json
+spec/vcr_cassettes
