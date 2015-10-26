@@ -24,20 +24,15 @@ module GoogleAppsManager
       @client_secrets_file = config['client_secrets_file']
 
       File.write('{}', @client_secrets_file) unless File.exist? @client_secrets_file
-      authorize
     end
-
-    def client
-      @client ||= Google::ApiClient.new(application_name: @application_name)
-    end
-
-    private
 
     def authorize
       auth = file_storage.authorize
       auth = authorize_with_client_secrets if file_storage.authorization.nil?
       auth
     end
+
+    private
 
     def file_storage
       @file_strage ||= Google::APIClient::Storage.new(Google::APIClient::FileStore.new(@credential_store_file))
