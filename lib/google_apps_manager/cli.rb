@@ -4,7 +4,7 @@
 
 require 'thor'
 require 'yaml'
-require 'google_apps_manager/auth'
+require 'google_apps_manager/client'
 
 module GoogleAppsManager
   ##
@@ -12,7 +12,23 @@ module GoogleAppsManager
   class CLI < Thor
     desc 'init', 'authorize to google with oauth2'
     def init
-      auth
+      puts 'Authorization to google...'
+      authorization
+      puts 'Successed!'
+    end
+
+    desc 'pull', 'download files from google apps script'
+    def pull
+      puts 'Authorization to google...'
+      client = authorization
+      puts "Successed.\n\n"
+      puts 'file downloading...'
+      scripts = client.download
+      puts "Successed.\n\n"
+      scripts.each do |script|
+        puts "Download file: #{config['dist']}/#{script.name}"
+      end
+      puts "\nFinish!"
     end
 
     private
@@ -21,8 +37,9 @@ module GoogleAppsManager
       @config ||= YAML.load_file(ENV['GAM_CONFIG_FILE'])
     end
 
-    def auth
-      @auth ||= Auth.new(config)
+    def authorization
+      @client = GoogleAppsManager::Client.new(config)
+      @client.authorize!
     end
   end
 end
