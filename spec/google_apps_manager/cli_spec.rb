@@ -1,13 +1,26 @@
 require 'spec_helper'
 
-describe GoogleAppsManager::CLI do
-  let(:cli) { GoogleAppsManager::CLI.new }
+include GoogleAppsManager
+describe CLI do
+  let(:cli) { CLI.new }
+  let(:config) { { dist: 'tmp' } }
 
-  describe '#init', vcr: { cassette_name: 'google_api_authorize' }do
+  before do
+    allow(cli).to receive(:authorization).and_return(client)
+    allow(cli).to receive(:config).and_return(config)
+  end
+
+  describe '#init' do
     subject { cli.init }
-    before do
-      ENV['GAM_CONFIG_FILE'] = 'spec/config/sample_config.yml'
-    end
+    let(:client) { double('client') }
+
+    it { expect { subject }.not_to raise_error }
+  end
+
+  describe '#pull' do
+    subject { cli.pull }
+    let(:client)   { double('client', download: download) }
+    let(:download) { [double('script', name: 'test')] }
 
     it { expect { subject }.not_to raise_error }
   end
